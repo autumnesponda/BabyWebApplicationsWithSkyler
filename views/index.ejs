@@ -1,11 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cat Button!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Cat Button !
+      </h1>
+      <h2 class="subtitle">
+        Sky's first lil baby project but here's my version
+      </h2>
+    </div>
+  </div>
+</section>
+
+<div class="section">
+  <div class="box">
+    <button class="button is-primary is-light" onclick="getNewCat()">click for C A T</button>
+    <figure class="image">
+      <img id="catPic" src="" alt="">
+    </figure>
+  </div>
+</div>
+</body>
 </html>
+
+<script>
+  //TODO: change all script to jquery
+
+  document.addEventListener('DOMContentLoaded', function() {
+    getNewCat();
+  });
+
+  function getNewCat() {
+    let Http = new XMLHttpRequest();
+    let url = "https://api.thecatapi.com/v1/images/search"
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = function(){
+      if (this.readyState === 4 && this.status === 200) {
+        let parsed = JSON.parse(this.responseText)
+        let catUrl = parsed[0]['url'];
+        document.getElementById("catPic").src = catUrl;
+      }
+    };
+  }
+</script>
