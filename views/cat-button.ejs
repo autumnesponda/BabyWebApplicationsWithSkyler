@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include("_globalScripts"); %>
+  <title>AE - Cat Button</title>
+</head>
+<body>
+
+<%- include("_titlebar"); %>
+
+<section class="hero is-primary is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Cat Button !
+      </h1>
+      <h2 class="subtitle">
+        Sky's first lil baby project but here's my version
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!--TODO: figure out how to add margins to make this stuff not look ugly-->
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+          <button id="catButton" class="button is-large is-info is-rounded" onclick="getNewCat()">🐈 click for a NEW cat! 🐈</button>
+          <figure class="image is is-3by2">
+            <img id="catPic" style="object-fit: contain" src="" alt="">
+          </figure>
+      </div>
+  </div>
+</div>
+</section>
+</body>
+</html>
+
+<script>
+  // $() is jquery shorthand for documentOnReady
+  $(() => {
+    getNewCat();
+  });
+
+  function getNewCat() {
+    $("#catButton").addClass("is-loading");
+    let Http = new XMLHttpRequest();
+    let url = "https://api.thecatapi.com/v1/images/search"
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = function(){
+      if (this.readyState === 4 && this.status === 200) {
+        let parsed = JSON.parse(this.responseText)
+        let catUrl = parsed[0]['url'];
+        $("#catPic").attr("src", catUrl);
+        $("#catButton").removeClass("is-loading");
+      }
+    };
+  }
+</script>
